@@ -4,4 +4,5 @@ export class Student {
     email?: string;
     dateOfBirth?: Date;
     age?: number;
+    isDeleted?: boolean;
 }

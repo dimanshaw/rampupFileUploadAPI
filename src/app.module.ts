@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
 import { StudentProcessor } from './student.processor';
+import { Student } from './student/student.entity';
 
 @Module({
   imports: [HttpModule,
@@ -24,6 +25,7 @@ import { StudentProcessor } from './student.processor';
   })],
   controllers: [AppController],
   providers: [AppService,
-  StudentProcessor],
+  StudentProcessor,
+  Student],
 })
 export class AppModule {}

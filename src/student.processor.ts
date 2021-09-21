@@ -17,7 +17,9 @@ export class StudentProcessor {
 
     @Process('saveStudent')
     async saveStudent(job: Job){
-        await this.appService.saveStudent(job.data);
+
+        console.log("Student list job data ", job.data)
+        await this.appService.saveStudent(job.data.studentList);
     }
 
     @SubscribeMessage('events')
