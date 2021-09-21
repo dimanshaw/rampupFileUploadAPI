@@ -53,13 +53,16 @@ export class AppController {
       dataToUpload.age = new Date().getFullYear() -
       new Date((x[2] - 25569) * 86400000).getFullYear();
       console.log('adding to the queue!!!');
-      const job = await this.studendQueue.add('saveStudent', { // transcode
+      const job = await this.studendQueue.add('saveStudent', { 
        // studentList: dataToUpload,
        name: x[0],
        email: x[1],
        dateOfBirth: new Date((x[2] - 25569) * 86400000),
        age: new Date().getFullYear() -
        new Date((x[2] - 25569) * 86400000).getFullYear()
+      }, {
+        attempts: 3,
+        backoff: 3000 
       });
     }
     //this.appService.saveStudent(dataToUpload);
