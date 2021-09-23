@@ -15,15 +15,12 @@ export class AppService {
 
   saveStudent(param) {
 
-    console.log("Save Student!!!", param)
-
     return this.httpService
       .post('http://localhost:3000/api/student', param, {
         headers: {
           'Content-Type': 'application/json',
         },
       }).subscribe((res) => {
-        console.log("Student save post ", res)
       })
   }
 
