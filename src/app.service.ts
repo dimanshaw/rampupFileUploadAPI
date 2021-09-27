@@ -15,6 +15,7 @@ export class AppService {
 
   saveStudent(param) {
 
+    console.log("params ", param)
     return this.httpService
       .post('http://localhost:3000/api/student', param, {
         headers: {

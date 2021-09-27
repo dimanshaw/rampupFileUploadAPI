@@ -15,6 +15,8 @@ import {
 import { Job } from 'bull';
 import { Socket } from 'dgram';
 import { AppService } from './app.service';
+import * as moment from 'moment';
+
 
 @WebSocketGateway({ cors: { origin: 'http://localhost:4200' } })
 @Processor('stQueue')
@@ -29,8 +31,6 @@ export class StudentProcessor {
   async saveStudent(job: Job) {
 
     let item = job.data
-
-    console.log("job dima ", item.fileName)
     ////###################################################################
 
     var xlsx = require('xlsx');
@@ -46,11 +46,10 @@ export class StudentProcessor {
 
     for (let index = 1; index < data.length; index++) {
       let x: any = data[index];
-
       dataToUpload.push({
         name: x[0],
         email: x[1],
-        dateOfBirth: new Date((x[2] - 25569) * 86400000),
+        dateofbirth: moment((new Date((x[2] - 25569) * 86400000))).format('yyyy-MM-DD'),
         age:
           new Date().getFullYear() -
           new Date((x[2] - 25569) * 86400000).getFullYear(),
@@ -58,12 +57,19 @@ export class StudentProcessor {
 
     }
 
+    
+
+    
+
     // add to queue here
 
 
     ////##########################################################
 
-    await this.appService.saveStudent(dataToUpload);
+    console.log("Data to upload ", dataToUpload)
+    console.log("string json ",JSON.stringify(dataToUpload));
+
+    await this.appService.saveStudent(JSON.stringify(dataToUpload));
   }
 
   @SubscribeMessage('events')
@@ -83,6 +89,6 @@ export class StudentProcessor {
   @OnGlobalQueueCompleted()
   async onGlobalCompleted(jobId: number, result: any) {
     ////////////////
-    this.socket.emit('events', { name: 'Nest' });
+    this.socket.emit('events', { name: 'addingJobCompleted' });
   }
 }
